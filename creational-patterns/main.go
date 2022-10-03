@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	abstract_factory "github.com/creational-patterns/abstract-factory"
 	"github.com/creational-patterns/builder"
 	factory_method "github.com/creational-patterns/factory-method"
 	counter "github.com/creational-patterns/singleton"
@@ -60,6 +61,27 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	
+
 	fmt.Print("*** End of Factory Method ***\n\n\n")
+
+	/*
+		Example Abstract Factory
+	*/
+	fmt.Println("*** Example Abstract Factory ***")
+
+	bicycleFactory, err := abstract_factory.BuildFactory(abstract_factory.BicycleFactoryType)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	sportBicycle, err := bicycleFactory.NewVehicle(abstract_factory.SportBicycleType)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	fmt.Println("Sport Bicycle:")
+	fmt.Printf("Vehicle has %d wheels, %d seats.\n", sportBicycle.NumWheels(), sportBicycle.NumSeats())
+
+	fmt.Print("*** End of Abstract Factory ***\n\n\n")
+
 }
