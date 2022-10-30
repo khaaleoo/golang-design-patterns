@@ -6,6 +6,7 @@ import (
 	abstract_factory "github.com/creational-patterns/abstract-factory"
 	"github.com/creational-patterns/builder"
 	factory_method "github.com/creational-patterns/factory-method"
+	"github.com/creational-patterns/prototype"
 	counter "github.com/creational-patterns/singleton"
 )
 
@@ -84,4 +85,20 @@ func main() {
 
 	fmt.Print("*** End of Abstract Factory ***\n\n\n")
 
+	/*
+		Example Prototype
+	*/
+	fmt.Println("*** Example Prototype ***")
+	homePage := prototype.NewPage("/home", prototype.MAIN_LAYOUT)
+	homePage.SetBody("Home Body")
+	fmt.Println(homePage.GetInfo())
+
+	profilePage := prototype.NewPage("/profile", prototype.MAIN_LAYOUT)
+	fmt.Println(profilePage.GetInfo())
+	profilePage.SetBody("Profile Body")
+	fmt.Println(profilePage.GetInfo())
+
+	loginPage := prototype.NewPage("/login", prototype.BLANK_LAYOUT)
+	fmt.Println(loginPage.GetInfo())
+	fmt.Print("*** End of Prototype ***\n\n\n")
 }
