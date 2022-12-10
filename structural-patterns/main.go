@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	adapter "github.com/structural-patterns/adapter"
 	composite "github.com/structural-patterns/composite"
 )
 
@@ -51,4 +52,23 @@ func main() {
 	root.Print()
 
 	fmt.Print("*** End of Composite ***\n\n\n")
+
+	/*
+		Example Adapter
+	*/
+	fmt.Println("*** Example Adapter ***")
+	client := &adapter.Client{}
+
+	fetchAdapter := &adapter.FetchAdapter{
+		Instance: &adapter.Fetch{},
+	}
+	client.Get(fetchAdapter, "https://www.google.com")
+
+	axiosAdapter := &adapter.AxiosAdapter{
+		Instance: &adapter.Axios{},
+	}
+	client.Get(axiosAdapter, "https://www.bornhup.com")
+
+	fmt.Print("*** End of Adapter ***\n\n\n")
+
 }
