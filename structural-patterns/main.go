@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	adapter "github.com/structural-patterns/adapter"
+	bridge "github.com/structural-patterns/bridge"
 	composite "github.com/structural-patterns/composite"
 )
 
@@ -70,5 +71,22 @@ func main() {
 	client.Get(axiosAdapter, "https://www.bornhup.com")
 
 	fmt.Print("*** End of Adapter ***\n\n\n")
+
+	/*
+		Example Bridge
+	*/
+	fmt.Println("*** Example Bridge ***")
+	window := bridge.Window{}
+	macOS := bridge.MacOS{}
+	epson := bridge.Epson{}
+	hp := bridge.HP{}
+
+	window.SetPrinter(&epson)
+	window.Print()
+
+	macOS.SetPrinter(&hp)
+	macOS.Print()
+
+	fmt.Print("*** End of Bridge ***\n\n\n")
 
 }
