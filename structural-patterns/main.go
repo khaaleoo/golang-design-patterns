@@ -6,6 +6,7 @@ import (
 	adapter "github.com/structural-patterns/adapter"
 	bridge "github.com/structural-patterns/bridge"
 	composite "github.com/structural-patterns/composite"
+	proxy "github.com/structural-patterns/proxy"
 )
 
 func main() {
@@ -89,4 +90,30 @@ func main() {
 
 	fmt.Print("*** End of Bridge ***\n\n\n")
 
+	/*
+		Example Proxy
+	*/
+	fmt.Println("*** Example Proxy ***")
+
+	mainDB := proxy.UsersDB{}
+
+	user1 := proxy.User{ID: 1}
+	user2 := proxy.User{ID: 2}
+	user3 := proxy.User{ID: 3}
+
+	mainDB.Add(user1).Add(user2).Add(user3)
+
+	proxy := proxy.UserFinderProxy{
+		MainDB:   mainDB,
+		Stack:    proxy.UsersStack{},
+		Capacity: 2,
+	}
+
+	proxy.Find(1)
+	proxy.Find(2)
+	proxy.Find(3)
+	proxy.Find(2)
+	proxy.Find(1)
+
+	fmt.Print("*** End of Proxy ***\n\n\n")
 }
