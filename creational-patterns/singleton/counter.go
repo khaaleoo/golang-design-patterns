@@ -1,15 +1,20 @@
 package singleton
 
+import "sync"
+
 type singleton struct {
 	counter int
 }
 
-var instance *singleton
+var (
+	instance *singleton
+	once     sync.Once
+)
 
 func GetInstance() *singleton {
-	if instance == nil {
-		instance = new(singleton)
-	}
+	once.Do(func() {
+		instance = &singleton{counter: 0}
+	})
 	return instance
 }
 

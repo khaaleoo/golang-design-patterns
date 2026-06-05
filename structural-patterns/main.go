@@ -6,6 +6,8 @@ import (
 	adapter "github.com/structural-patterns/adapter"
 	bridge "github.com/structural-patterns/bridge"
 	composite "github.com/structural-patterns/composite"
+	decorator "github.com/structural-patterns/decorator"
+	facade "github.com/structural-patterns/facade"
 	proxy "github.com/structural-patterns/proxy"
 )
 
@@ -91,9 +93,46 @@ func main() {
 	fmt.Print("*** End of Bridge ***\n\n\n")
 
 	/*
-		Example Proxy
+		Example Decorator
 	*/
-	fmt.Println("*** Example Proxy ***")
+	fmt.Println("*** Example Decorator ***")
+	fetchClient := &adapter.FetchAdapter{Instance: &adapter.Fetch{}}
+	httpClient := &decorator.LoggingDecorator{
+		Inner: &decorator.RetryDecorator{
+			Inner:   fetchClient,
+			Retries: 1,
+		},
+	}
+	client.Get(httpClient, "https://www.example.com")
+	fmt.Print("*** End of Decorator ***\n\n\n")
+
+	/*
+		Example Facade
+	*/
+	fmt.Println("*** Example Facade ***")
+	storage := facade.NewStorageFacade("Root")
+	storage.SaveFile("/docs", "README.md")
+	storage.SaveFile("/docs", "guide.md")
+	storage.SaveFile("/images", "logo.png")
+	fmt.Println(storage.Summary())
+	storage.ListAll()
+	fmt.Print("*** End of Facade ***\n\n\n")
+
+	/*
+		Example Proxy (lazy HTTP client)
+	*/
+	fmt.Println("*** Example Proxy (Lazy HTTP) ***")
+	lazyClient := proxy.NewLazyHttpProxy(func() adapter.Http {
+		return &adapter.FetchAdapter{Instance: &adapter.Fetch{}}
+	})
+	client.Get(lazyClient, "https://www.example.com")
+	client.Get(lazyClient, "https://www.example.com")
+	fmt.Print("*** End of Proxy (Lazy HTTP) ***\n\n\n")
+
+	/*
+		Example Proxy (cache)
+	*/
+	fmt.Println("*** Example Proxy (Cache) ***")
 
 	mainDB := proxy.UsersDB{}
 
@@ -103,17 +142,17 @@ func main() {
 
 	mainDB.Add(user1).Add(user2).Add(user3)
 
-	proxy := proxy.UserFinderProxy{
+	userFinderProxy := proxy.UserFinderProxy{
 		MainDB:   mainDB,
 		Stack:    proxy.UsersStack{},
 		Capacity: 2,
 	}
 
-	proxy.Find(1)
-	proxy.Find(2)
-	proxy.Find(3)
-	proxy.Find(2)
-	proxy.Find(1)
+	userFinderProxy.Find(1)
+	userFinderProxy.Find(2)
+	userFinderProxy.Find(3)
+	userFinderProxy.Find(2)
+	userFinderProxy.Find(1)
 
-	fmt.Print("*** End of Proxy ***\n\n\n")
+	fmt.Print("*** End of Proxy (Cache) ***\n\n\n")
 }
