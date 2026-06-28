@@ -8,6 +8,7 @@ import (
 	composite "github.com/structural-patterns/composite"
 	decorator "github.com/structural-patterns/decorator"
 	facade "github.com/structural-patterns/facade"
+	flyweight "github.com/structural-patterns/flyweight"
 	proxy "github.com/structural-patterns/proxy"
 )
 
@@ -117,6 +118,21 @@ func main() {
 	fmt.Println(storage.Summary())
 	storage.ListAll()
 	fmt.Print("*** End of Facade ***\n\n\n")
+
+	/*
+		Example Flyweight
+	*/
+	fmt.Println("*** Example Flyweight ***")
+	forest := &flyweight.Forest{}
+	for i := 0; i < 5; i++ {
+		forest.PlantTree(i, i, "Oak", "Green", "Rough")
+	}
+	for i := 0; i < 5; i++ {
+		forest.PlantTree(i+10, i, "Pine", "Dark Green", "Smooth")
+	}
+	fmt.Printf("Trees: %d, shared TreeTypes: %d\n", forest.Count(), flyweight.TreeTypeCount())
+	forest.Render()
+	fmt.Print("*** End of Flyweight ***\n\n\n")
 
 	/*
 		Example Proxy (lazy HTTP client)
