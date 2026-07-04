@@ -8,7 +8,7 @@ This repository contains simple examples of design patterns implemented in Go (G
 |--------|----------|
 | [creational-patterns](./creational-patterns) | Singleton, Builder, Factory Method, Abstract Factory, Prototype |
 | [structural-patterns](./structural-patterns) | Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy |
-| [behavioral-patterns](./behavioral-patterns) | Strategy, Observer, Command, State, Chain of Responsibility |
+| [behavioral-patterns](./behavioral-patterns) | Strategy, Observer, Command, State, Chain of Responsibility, Iterator, Mediator, Memento, Template Method, Visitor, Interpreter |
 
 ## Implemented patterns
 
@@ -34,7 +34,7 @@ This repository contains simple examples of design patterns implemented in Go (G
 | **Flyweight** | Forest of thousands of trees sharing a small pool of `TreeType` objects | [`structural-patterns/flyweight`](./structural-patterns/flyweight) |
 | **Proxy** | Lazy HTTP client initialization and LRU cache for user lookup | [`structural-patterns/proxy`](./structural-patterns/proxy) |
 
-### Behavioral (5/11)
+### Behavioral (11/11)
 
 | Pattern | Example | Path |
 |---------|---------|------|
@@ -43,6 +43,12 @@ This repository contains simple examples of design patterns implemented in Go (G
 | **Command** | Manufacturing remote executes and undoes build commands | [`behavioral-patterns/command`](./behavioral-patterns/command) |
 | **State** | Order lifecycle transitions (pending → preparing → ready) | [`behavioral-patterns/state`](./behavioral-patterns/state) |
 | **Chain of Responsibility** | HTTP middleware chain: auth → rate limit → fetch | [`behavioral-patterns/chain`](./behavioral-patterns/chain) |
+| **Iterator** | Coffee menu iterator walks items without exposing the menu internals | [`behavioral-patterns/iterator`](./behavioral-patterns/iterator) |
+| **Mediator** | Coffee shop mediator coordinates cashier and barista colleagues | [`behavioral-patterns/mediator`](./behavioral-patterns/mediator) |
+| **Memento** | Order editor snapshots and restores draft drink selections | [`behavioral-patterns/memento`](./behavioral-patterns/memento) |
+| **Template Method** | Tea and coffee share a fixed beverage preparation sequence | [`behavioral-patterns/templatemethod`](./behavioral-patterns/templatemethod) |
+| **Visitor** | Pricing and labeling operations visit drink and pastry menu items | [`behavioral-patterns/visitor`](./behavioral-patterns/visitor) |
+| **Interpreter** | Tiny order-total expression tree evaluates additions and discounts | [`behavioral-patterns/interpreter`](./behavioral-patterns/interpreter) |
 
 ## Run examples
 
@@ -58,13 +64,7 @@ cd behavioral-patterns && go run .
 |----------|-------------|-----------------|
 | Creational | 5/5 | — |
 | Structural | 7/7 | — |
-| Behavioral | 5/11 | Iterator, Mediator, Memento, Template Method, Visitor, Interpreter |
-
-## Suggested next patterns
-
-- **Template Method** — shared beverage preparation steps in the coffee shop theme
-- **Iterator** — walk the composite file tree without exposing internals
-- **Memento** — snapshot and restore manufacturing command state
+| Behavioral | 11/11 | — |
 - **Functional Options** — flexible constructors for builder/prototype
 
 ## Contributing

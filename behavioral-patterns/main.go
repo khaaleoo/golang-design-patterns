@@ -5,9 +5,15 @@ import (
 
 	"github.com/behavioral-patterns/chain"
 	"github.com/behavioral-patterns/command"
+	"github.com/behavioral-patterns/interpreter"
+	"github.com/behavioral-patterns/iterator"
+	"github.com/behavioral-patterns/mediator"
+	"github.com/behavioral-patterns/memento"
 	"github.com/behavioral-patterns/observer"
 	"github.com/behavioral-patterns/state"
 	"github.com/behavioral-patterns/strategy"
+	"github.com/behavioral-patterns/templatemethod"
+	"github.com/behavioral-patterns/visitor"
 )
 
 func main() {
@@ -84,4 +90,91 @@ func main() {
 		fmt.Println("Auth error:", err)
 	}
 	fmt.Print("*** End of Chain of Responsibility ***\n\n\n")
+
+	/*
+		Example Iterator
+	*/
+	fmt.Println("*** Example Iterator ***")
+	menu := iterator.NewMenu()
+	menu.AddItem("Espresso", 3.00)
+	menu.AddItem("Latte", 4.50)
+	menu.AddItem("Croissant", 2.75)
+
+	menuIterator := menu.CreateIterator()
+	for menuIterator.HasNext() {
+		item := menuIterator.Next()
+		fmt.Printf("%s: %.2f\n", item.Name, item.Price)
+	}
+	fmt.Print("*** End of Iterator ***\n\n\n")
+
+	/*
+		Example Mediator
+	*/
+	fmt.Println("*** Example Mediator ***")
+	coffeeShopMediator := mediator.NewCoffeeShopMediator()
+	cashier := mediator.NewCashier("Mia", coffeeShopMediator)
+	barista := mediator.NewBarista("Leo", coffeeShopMediator)
+	coffeeShopMediator.SetCashier(cashier)
+	coffeeShopMediator.SetBarista(barista)
+
+	fmt.Println(cashier.TakeOrder("Americano"))
+	fmt.Println(barista.FinishDrink("Americano"))
+	fmt.Print("*** End of Mediator ***\n\n\n")
+
+	/*
+		Example Memento
+	*/
+	fmt.Println("*** Example Memento ***")
+	editor := memento.NewOrderEditor("Latte", "Medium")
+	history := memento.NewHistory()
+	history.Backup(editor)
+
+	editor.SetDrinkName("Mocha")
+	editor.SetSize("Large")
+	fmt.Println("Current order:", editor.Snapshot())
+	fmt.Println(history.Undo(editor))
+	fmt.Print("*** End of Memento ***\n\n\n")
+
+	/*
+		Example Template Method
+	*/
+	fmt.Println("*** Example Template Method ***")
+	for _, step := range templatemethod.Prepare(templatemethod.Coffee{}) {
+		fmt.Println(step)
+	}
+	for _, step := range templatemethod.Prepare(templatemethod.Tea{}) {
+		fmt.Println(step)
+	}
+	fmt.Print("*** End of Template Method ***\n\n\n")
+
+	/*
+		Example Visitor
+	*/
+	fmt.Println("*** Example Visitor ***")
+	menuItems := []visitor.MenuItem{
+		visitor.NewDrink("Cappuccino", 4.25),
+		visitor.NewPastry("Muffin", 3.10),
+	}
+	labelVisitor := visitor.LabelVisitor{}
+	priceVisitor := visitor.PriceVisitor{}
+
+	for _, item := range menuItems {
+		fmt.Println(item.Accept(labelVisitor))
+		fmt.Println(item.Accept(priceVisitor))
+	}
+	fmt.Print("*** End of Visitor ***\n\n\n")
+
+	/*
+		Example Interpreter
+	*/
+	fmt.Println("*** Example Interpreter ***")
+	orderTotal := interpreter.NewSubtractExpression(
+		interpreter.NewAddExpression(
+			interpreter.NewNumberExpression(5.00),
+			interpreter.NewNumberExpression(2.00),
+		),
+		interpreter.NewNumberExpression(1.50),
+	)
+	fmt.Printf("Order total: %.2f\n", orderTotal.Interpret())
+	fmt.Print("*** End of Interpreter ***\n\n\n")
 }
